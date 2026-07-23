@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>مستر أيمن يوسف | الفيزياء والكيمياء والتحصيلي</title>
+
+<!-- Google Fonts: Cairo & Tajawal (Arabic) + Inter (Latin) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&family=Tajawal:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<style>
+  :root{
+    /* ===== Design tokens ===== */
+    --bg-void:      #08070c;   /* near-black base */
+    --bg-panel:     #121019;   /* card / panel surface */
+    --bg-panel-2:   #17141f;   /* slightly lighter panel for depth */
+    --line:         #262233;   /* hairline borders */
+
+    --text-primary: #f6f5f9;   /* near white */
+    --text-muted:   #a8a3b8;   /* secondary text */
+
+    --gold:         #d8b26a;   /* soft, restrained gold */
+    --gold-soft:    #f0d9a8;
+    --violet:       #8b6bf0;   /* neon violet */
+    --violet-soft:  #b39cff;
+
+    --font-ar-display: 'Cairo', sans-serif;
+    --font-ar-body:    'Tajawal', sans-serif;
+    --font-en:         'Inter', sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--font-ar-body), var(--font-en);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-display{
+    font-family: var(--font-ar-display), var(--font-en);
+  }
+
+  /* ===== Ambient backdrop shared by the whole page ===== */
+  .bg-noise{
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(60% 50% at 15% 10%, rgba(139,107,240,0.14), transparent 60%),
+      radial-gradient(50% 45% at 90% 25%, rgba(216,178,106,0.10), transparent 60%),
+      var(--bg-void);
+  }
+
+  /* ===== Header ===== */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(14px);
+    background: rgba(8,7,12,0.72);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo-mark{
+    background: linear-gradient(135deg, var(--gold), var(--violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-link{
+    position: relative;
+    color: var(--text-muted);
+    transition: color .25s ease;
+  }
+  .nav-link:hover{ color: var(--text-primary); }
+  .nav-link::after{
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 1px;
+    background: var(--gold);
+    transition: width .25s ease;
+  }
+  .nav-link:hover::after{ width: 100%; }
+
+  /* ===== Buttons ===== */
+  .btn-glow{
+    position: relative;
+    background: linear-gradient(135deg, var(--gold), #c99a4a);
+    color: #0c0a08;
+    font-weight: 700;
+    transition: transform .25s ease, box-shadow .25s ease;
+    box-shadow: 0 0 0 rgba(216,178,106,0);
+  }
+  .btn-glow:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px -4px rgba(216,178,106,0.55), 0 0 40px -8px rgba(216,178,106,0.35);
+  }
+
+  .btn-outline{
+    border: 1px solid rgba(179,156,255,0.4);
+    color: var(--text-primary);
+    background: rgba(139,107,240,0.05);
+    transition: all .25s ease;
+  }
+  .btn-outline:hover{
+    border-color: var(--violet-soft);
+    background: rgba(139,107,240,0.12);
+    box-shadow: 0 0 25px -6px rgba(139,107,240,0.5);
+  }
+
+  /* ===== Hero ambient orbs ===== */
+  .hero-stage{ position: relative; overflow: hidden; }
+
+  .orb{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: .55;
+    animation: drift 18s ease-in-out infinite;
+  }
+  .orb-gold{
+    width: 420px; height: 420px;
+    background: radial-gradient(circle at 30% 30%, var(--gold-soft), transparent 70%);
+    top: -120px; right: -80px;
+    animation-duration: 22s;
+  }
+  .orb-violet{
+    width: 480px; height: 480px;
+    background: radial-gradient(circle at 60% 60%, var(--violet-soft), transparent 70%);
+    bottom: -160px; left: -120px;
+    animation-duration: 26s;
+    animation-delay: -6s;
+  }
+  .orb-small{
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(216,178,106,0.5), transparent 70%);
+    top: 40%; left: 20%;
+    animation-duration: 15s;
+    animation-delay: -3s;
+  }
+
+  @keyframes drift{
+    0%, 100%{ transform: translate(0,0) scale(1); }
+    33%{ transform: translate(30px,-25px) scale(1.08); }
+    66%{ transform: translate(-20px,20px) scale(0.95); }
+  }
+
+  /* Faint drifting physics/chemistry symbols behind the hero copy */
+  .formula{
+    position: absolute;
+    font-family: var(--font-en);
+    color: rgba(245,244,249,0.07);
+    font-weight: 600;
+    user-select: none;
+    animation: float-up 24s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes float-up{
+    0%{ transform: translateY(20px) rotate(0deg); opacity: 0; }
+    10%{ opacity: 1; }
+    90%{ opacity: 1; }
+    100%{ transform: translateY(-620px) rotate(6deg); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .orb, .formula{ animation: none !important; }
+  }
+
+  /* ===== Feature cards ===== */
+  .card{
+    background: linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
+    border: 1px solid var(--line);
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .card:hover{
+    transform: translateY(-8px);
+    border-color: rgba(216,178,106,0.55);
+    box-shadow: 0 20px 45px -20px rgba(139,107,240,0.35), 0 0 0 1px rgba(216,178,106,0.15);
+  }
+  .card-icon{
+    background: radial-gradient(circle at 30% 30%, rgba(216,178,106,0.18), rgba(139,107,240,0.10));
+    border: 1px solid var(--line);
+  }
+  .card:hover .card-icon{
+    border-color: rgba(216,178,106,0.5);
+  }
+  .card:hover .card-icon svg{
+    color: var(--gold-soft);
+  }
+
+  /* Focus visibility for keyboard nav */
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--violet-soft);
+    outline-offset: 3px;
+  }
+
+  ::selection{ background: rgba(216,178,106,0.35); }
+</style>
+</head>
+
+<body>
+<div class="bg-noise"></div>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg, rgba(216,178,106,.15), rgba(139,107,240,.15)); border:1px solid var(--line);">
+        <i data-lucide="atom" class="w-6 h-6" style="color:var(--gold-soft)"></i>
+      </div>
+      <span class="font-display text-xl md:text-2xl font-extrabold logo-mark">مستر أيمن يوسف</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-10 font-display font-medium">
+      <a href="#hero" class="nav-link">الرئيسية</a>
+      <a href="#features" class="nav-link">المميزات</a>
+      <a href="#courses" class="nav-link">الكورسات</a>
+      <a href="#contact" class="nav-link">تواصل معنا</a>
+    </nav>
+
+    <a href="#subscribe" class="btn-glow px-5 py-2.5 rounded-full text-sm font-display hidden sm:inline-block">
+      اشترك الآن
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section id="hero" class="hero-stage min-h-[92vh] flex items-center px-6 md:px-10">
+    <div class="orb orb-gold"></div>
+    <div class="orb orb-violet"></div>
+    <div class="orb orb-small"></div>
+
+    <span class="formula" style="top:12%; right:8%;">E = mc²</span>
+    <span class="formula" style="top:65%; right:20%; animation-delay:-8s;">PV = nRT</span>
+    <span class="formula" style="top:30%; left:6%; animation-delay:-14s;">F = ma</span>
+    <span class="formula" style="top:75%; left:14%; animation-delay:-4s;">ΔG = ΔH − TΔS</span>
+
+    <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-14 items-center">
+
+      <div class="text-center lg:text-right">
+        <span class="inline-block px-4 py-1.5 rounded-full text-xs md:text-sm font-display border mb-6" style="border-color:var(--line); color:var(--gold-soft); background:rgba(216,178,106,.06);">
+          مناهج مصرية وسعودية · ثانوي وجامعي
+        </span>
+
+        <h1 class="font-display font-black leading-[1.25] text-4xl sm:text-5xl md:text-6xl mb-6">
+          الفيزياء والكيمياء<br class="hidden md:block" />
+          <span style="background:linear-gradient(135deg, var(--gold-soft), var(--violet-soft)); -webkit-background-clip:text; background-clip:text; color:transparent;">
+            من الحيرة إلى التفوق
+          </span>
+        </h1>
+
+        <p class="text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-10" style="color: var(--text-muted);">
+          شرح متقن، تجارب مبسّطة، ومتابعة حقيقية لمستواك — كل ما تحتاجه لتفهم المادة العلمية بعمق
+          وتتفوق في التحصيلي والثانوية العامة، بخطوات واضحة من أول درس.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+          <a href="#subscribe" class="btn-glow px-8 py-3.5 rounded-full font-display font-bold text-base">
+            اشترك الآن
+          </a>
+          <a href="#features" class="btn-outline px-8 py-3.5 rounded-full font-display font-bold text-base">
+            اكتشف المزيد
+          </a>
+        </div>
+      </div>
+
+      <div class="flex justify-center lg:justify-start order-first lg:order-last">
+        <div class="relative w-72 sm:w-80 md:w-96">
+          <div class="absolute -inset-3 rounded-[2rem] opacity-70 blur-2xl" style="background:linear-gradient(135deg, var(--gold-soft), var(--violet-soft));"></div>
+          <img
+            src="assets/ayman-youssef.jpeg"
+            alt="مستر أيمن يوسف"
+            class="relative w-full rounded-[1.75rem] object-cover"
+            style="border:1px solid rgba(216,178,106,.35); box-shadow:0 25px 60px -20px rgba(0,0,0,.7);"
+          />
+          <div class="absolute -bottom-5 -right-5 px-5 py-2.5 rounded-2xl font-display font-bold text-sm md:text-base" style="background:var(--bg-panel); border:1px solid var(--line); color:var(--gold-soft);">
+            أ. أيمن يوسف
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FEATURES ================= -->
+  <section id="features" class="px-6 md:px-10 py-24 md:py-32">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="font-display text-sm font-semibold tracking-wide" style="color: var(--violet-soft);">
+          لماذا معنا
+        </span>
+        <h2 class="font-display font-extrabold text-3xl md:text-4xl mt-3 mb-4">
+          تجربة تعليمية مصممة حول فهمك أنت
+        </h2>
+        <p style="color: var(--text-muted);">
+          كل ميزة هنا صُممت لحل مشكلة حقيقية يواجهها الطالب مع الفيزياء والكيمياء.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="card rounded-2xl p-7">
+          <div class="card-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <i data-lucide="book-open-check" class="w-7 h-7" style="color: var(--violet-soft);"></i>
+          </div>
+          <h3 class="font-display font-bold text-lg mb-2">مناهج مصرية وسعودية</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+            تغطية كاملة لمنهج الثانوية العامة المصرية والنظام السعودي، بالإضافة لمقررات جامعية تأسيسية.
+          </p>
+        </div>
+
+        <div class="card rounded-2xl p-7">
+          <div class="card-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <i data-lucide="flask-conical" class="w-7 h-7" style="color: var(--violet-soft);"></i>
+          </div>
+          <h3 class="font-display font-bold text-lg mb-2">مسائل وحلول تفاعلية</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+            بنك أسئلة ضخم مع حلول مشروحة خطوة بخطوة، تدربك على النمط الفعلي لأسئلة الامتحان.
+          </p>
+        </div>
+
+        <div class="card rounded-2xl p-7">
+          <div class="card-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <i data-lucide="line-chart" class="w-7 h-7" style="color: var(--violet-soft);"></i>
+          </div>
+          <h3 class="font-display font-bold text-lg mb-2">متابعة وتقييم دوري</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+            اختبارات قصيرة بعد كل درس وتقرير أداء واضح يوضح لك نقاط قوتك وما يحتاج مراجعة.
+          </p>
+        </div>
+
+        <div class="card rounded-2xl p-7">
+          <div class="card-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <i data-lucide="users" class="w-7 h-7" style="color: var(--violet-soft);"></i>
+          </div>
+          <h3 class="font-display font-bold text-lg mb-2">مجتمع طلابي داعم</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+            مجموعة تفاعلية للأسئلة والنقاش مع زملائك، وردود مباشرة على استفساراتك أول بأول.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COURSES ================= -->
+  <section id="courses" class="px-6 md:px-10 py-24 md:py-32" style="background: linear-gradient(180deg, transparent, rgba(139,107,240,0.04), transparent);">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="font-display text-sm font-semibold tracking-wide" style="color: var(--gold-soft);">
+          الكورسات
+        </span>
+        <h2 class="font-display font-extrabold text-3xl md:text-4xl mt-3 mb-4">
+          اختر مسارك الدراسي
+        </h2>
+        <p style="color: var(--text-muted);">
+          كورسات مقسّمة حسب منهجك، بحيث تدرس بالضبط ما تحتاجه لامتحانك.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+
+        <!-- Egyptian track -->
+        <div class="card rounded-3xl p-8">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="card-icon w-12 h-12 rounded-xl flex items-center justify-center">
+              <i data-lucide="landmark" class="w-6 h-6" style="color: var(--gold-soft);"></i>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-xl">المنهج المصري</h3>
+              <p class="text-sm" style="color: var(--text-muted);">ثانوية عامة</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 rounded-xl" style="background: rgba(216,178,106,0.05); border: 1px solid var(--line);">
+              <div class="flex items-center gap-3">
+                <i data-lucide="atom" class="w-5 h-5" style="color: var(--violet-soft);"></i>
+                <span class="font-display font-medium">الفيزياء</span>
+              </div>
+              <i data-lucide="chevron-left" class="w-4 h-4" style="color: var(--text-muted);"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 rounded-xl" style="background: rgba(216,178,106,0.05); border: 1px solid var(--line);">
+              <div class="flex items-center gap-3">
+                <i data-lucide="flask-conical" class="w-5 h-5" style="color: var(--violet-soft);"></i>
+                <span class="font-display font-medium">الكيمياء</span>
+              </div>
+              <i data-lucide="chevron-left" class="w-4 h-4" style="color: var(--text-muted);"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 rounded-xl" style="background: rgba(216,178,106,0.05); border: 1px solid var(--line);">
+              <div class="flex items-center gap-3">
+                <i data-lucide="orbit" class="w-5 h-5" style="color: var(--violet-soft);"></i>
+                <span class="font-display font-medium">العلوم المتكاملة</span>
+              </div>
+              <i data-lucide="chevron-left" class="w-4 h-4" style="color: var(--text-muted);"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saudi track -->
+        <div class="card rounded-3xl p-8">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="card-icon w-12 h-12 rounded-xl flex items-center justify-center">
+              <i data-lucide="landmark" class="w-6 h-6" style="color: var(--gold-soft);"></i>
+            </div>
+            <div>
+              <h3 class="font-display font-bold text-xl">المنهج السعودي</h3>
+              <p class="text-sm" style="color: var(--text-muted);">ثانوي وجامعي</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 rounded-xl" style="background: rgba(139,107,240,0.05); border: 1px solid var(--line);">
+              <div class="flex items-center gap-3">
+                <i data-lucide="atom" class="w-5 h-5" style="color: var(--violet-soft);"></i>
+                <span class="font-display font-medium">الفيزياء</span>
+              </div>
+              <i data-lucide="chevron-left" class="w-4 h-4" style="color: var(--text-muted);"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 rounded-xl" style="background: rgba(139,107,240,0.05); border: 1px solid var(--line);">
+              <div class="flex items-center gap-3">
+                <i data-lucide="flask-conical" class="w-5 h-5" style="color: var(--violet-soft);"></i>
+                <span class="font-display font-medium">الكيمياء</span>
+              </div>
+              <i data-lucide="chevron-left" class="w-4 h-4" style="color: var(--text-muted);"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 rounded-xl" style="background: rgba(139,107,240,0.05); border: 1px solid var(--line);">
+              <div class="flex items-center gap-3">
+                <i data-lucide="target" class="w-5 h-5" style="color: var(--violet-soft);"></i>
+                <span class="font-display font-medium">التحصيلي</span>
+              </div>
+              <i data-lucide="chevron-left" class="w-4 h-4" style="color: var(--text-muted);"></i>
+            </div>
+            <div class="flex items-center justify-between p-4 rounded-xl" style="background: rgba(139,107,240,0.05); border: 1px solid var(--line);">
+              <div class="flex items-center gap-3">
+                <i data-lucide="graduation-cap" class="w-5 h-5" style="color: var(--violet-soft);"></i>
+                <span class="font-display font-medium">الجامعي التأسيسي</span>
+              </div>
+              <i data-lucide="chevron-left" class="w-4 h-4" style="color: var(--text-muted);"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="px-6 md:px-10 py-24 md:py-28">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="font-display text-sm font-semibold tracking-wide" style="color: var(--violet-soft);">
+        تواصل معنا
+      </span>
+      <h2 class="font-display font-extrabold text-3xl md:text-4xl mt-3 mb-4">
+        عندك سؤال؟ راسلنا على واتساب
+      </h2>
+      <p class="mb-10" style="color: var(--text-muted);">
+        فريقنا جاهز يرد على استفساراتك عن الكورسات والاشتراكات في أي وقت.
+      </p>
+
+      <a
+        href="https://wa.me/201001556831"
+        target="_blank"
+        rel="noopener"
+        class="btn-glow inline-flex items-center gap-3 px-8 py-4 rounded-full font-display font-bold text-base"
+      >
+        <i data-lucide="message-circle" class="w-5 h-5"></i>
+        <span dir="ltr">01001556831</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t px-6 md:px-10 py-12" style="border-color: var(--line);">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-3">
+      <i data-lucide="atom" class="w-5 h-5" style="color: var(--gold-soft);"></i>
+      <span class="font-display font-bold logo-mark">مستر أيمن يوسف</span>
+    </div>
+
+    <nav class="flex items-center gap-8 text-sm font-display" style="color: var(--text-muted);">
+      <a href="#hero" class="nav-link">الرئيسية</a>
+      <a href="#features" class="nav-link">المميزات</a>
+      <a href="#contact" class="nav-link">تواصل معنا</a>
+    </nav>
+
+    <p class="text-xs" style="color: var(--text-muted);">
+      © 2026 مستر أيمن يوسف. جميع الحقوق محفوظة.
+    </p>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>
